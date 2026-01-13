@@ -2,42 +2,60 @@ function getComputerChoice(){
     let arr = ['rock','paper','scissors']
     return arr[Math.floor(Math.random()*3)]
 }
+let humanScore = 0
+let computerScore =0
+
+const resultDiv = document.querySelector("#result")
+const scoreDiv = document.querySelector("#score")
+const choiceBtns = document.querySelectorAll(".choice-btn")
+
+choiceBtns.forEach((btn) => {
+            btn.addEventListener("click", ()=>{
+                if(humanScore < 5 && computerScore<5){ 
+                    let humanChoice = btn.id
+                    let computerChoice = getComputerChoice()
+                    playRound(humanChoice,computerChoice)
+                }
+        
+            })
+        })
 
 
-function getHumanChoice(){
-    let humanChoice = window.prompt("Enter the choice")
-    return humanChoice
-}
+function playRound(humanChoice,computerChoice){
 
+        let message = ""
 
-
-function playGame(){
-    let humanScore = 0
-    let computerScore =0
-
-    function playRound(humanChoice,computerChoice){
         if(humanChoice === computerChoice){
-            console.log("It's a draw.")
+            message =`It's a draw! Both chose ${humanChoice}.`
         }
         else if((humanChoice =='rock' && computerChoice == 'scissors') || (humanChoice == "paper" && computerChoice == "rock") 
         || (humanChoice == "scissors" && computerChoice == "paper")){
-            console.log(`You win! ${humanChoice} beats ${computerChoice}.`)
+            message =`You win! ${humanChoice} beats ${computerChoice}.`
             humanScore +=1
 
         }
         else{
-            console.log(`You lose! ${computerChoice} beats ${humanChoice}.`)
+            message =`You lose! ${computerChoice} beats ${humanChoice}.`
             computerScore+= 1
         }
+        resultDiv.textContent = message
+        scoreDiv.textContent = `human: ${humanScore}; computer score: ${computerScore}`
+
+        whoWin(humanScore,computerScore)
+
+    }
     
 
-}
-    for(let round =1;round <= 5 ; round++){
-        const humanChoice = getHumanChoice().toLowerCase();
-        const computerChoice = getComputerChoice();
-
-        playRound(humanChoice,computerChoice)
+    function whoWin (humanScore, computerScore){
+        if (humanScore === 5){
+            resultDiv.textContent = `GAME OVER U R THE WINNER`
+        }else if(computerScore ===5){
+            resultDiv.textContent = "GAME OVER U LOSE"
         }
+
+
+    }
+
     if(humanScore> computerScore){
         console.log("U WIN")
         }
@@ -47,7 +65,3 @@ function playGame(){
         else{
         console.log("U LOSER")
         }
-
-}
-
-playGame()
